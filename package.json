@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint --fix \"**/*.{js,jsx}\"",
+    "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky install"
