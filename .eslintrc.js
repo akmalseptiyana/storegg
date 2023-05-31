@@ -14,7 +14,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
     "plugin:prettier/recommended",
-    "plugin:import/typescript",
+    // "plugin:import/typescript",
     // "plugin:sort-export-all/recommended",
   ],
   plugins: [
@@ -28,6 +28,7 @@ module.exports = {
     "@typescript-eslint/no-empty-interface": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/strict-boolean-expressions": 0,
+    "@typescript-eslint/no-var-requires": "off",
     "object-shorthand": [1, "always"],
     "tailwindcss/classnames-order": 1, // use prettier-plugin-tailwindcss
     "tailwindcss/no-arbitrary-value": 0,
