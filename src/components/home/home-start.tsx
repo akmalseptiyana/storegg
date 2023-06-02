@@ -39,12 +39,14 @@ export function HomeStart() {
           </div>
           <div className="hidden lg:block lg:h-[441px] lg:w-[454px] xl:mr-14 xl:h-[484px] xl:w-[490px]">
             <div className="flex h-full justify-center lg:w-[90%] lg:justify-end xl:w-full">
-              <figure className="relative -z-10 flex-1">
+              <figure className="relative -z-10 flex-1" data-aos="zoom-in">
                 <Image
                   src="/images/banner.png"
                   alt="games"
                   fill
+                  priority
                   quality={90}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-contain"
                 />
                 <div className="absolute left-[-58px] top-[106.88px] z-10 h-[112px] w-[207px] rounded-2xl bg-white p-[14px] shadow-[-8px_8px_58px_0_rgba(0,0,0,0.1);]">
