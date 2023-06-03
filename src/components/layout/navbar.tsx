@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Menu } from "lucide-react";
 
 import { cn } from "@/utils/classnames";
-import { homepageMenus } from "@/lib/home/homepage-menus";
+import { homepageMenus } from "@/lib/data/homepage-menus";
 import { Logo } from "../ui/logo";
 import { Button } from "../ui/button";
 

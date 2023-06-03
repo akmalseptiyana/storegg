@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/utils/classnames";
-import { gameCards } from "@/lib/home/game-cards";
+import { gameCards } from "@/lib/data/game-cards";
 
 export function HomeFeaturedGame() {
   return (
