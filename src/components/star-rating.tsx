@@ -1,5 +1,5 @@
 import { cn } from "@/utils/classnames";
-import { StarIcon } from "./ui/icons/star-icon";
+import Star from "@/assets/star.svg";
 
 type RatingProps = {
   value: number;
@@ -11,7 +11,7 @@ export function StarRating({ value, className }: RatingProps) {
   for (let index = 0; index < value; index++) {
     stars.push(
       <li key={index}>
-        <StarIcon className="h-[22px] w-6" />
+        <Star width="24px" height="22px" />
       </li>
     );
   }

@@ -26,6 +26,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@svgr/webpack": "^8.0.1",
     "@types/aos": "^3.0.4",
     "@types/node": "18.16.1",
     "@types/react": "18.2.0",

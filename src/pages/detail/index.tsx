@@ -71,7 +71,7 @@ export default function Detail() {
                       name="ID"
                       aria-describedby="verifyID"
                       placeholder="Enter your ID"
-                      className="max-w-[437px]"
+                      className="sm:max-w-[437px]"
                     />
                   </div>
                 </div>
@@ -130,7 +130,6 @@ export default function Detail() {
                         </div>
                       </label>
                     ))}
-                    <div className="col-lg-4 col-sm-6"></div>
                   </div>
                 </div>
                 <div className="pb-5 md:pb-[50px]">
@@ -229,7 +228,6 @@ export default function Detail() {
                           </p>
                         </div>
                       </label>
-                      <div className="col-lg-4 col-sm-6"></div>
                     </div>
                   </fieldset>
                 </div>
@@ -245,13 +243,13 @@ export default function Detail() {
                     name="bankAccount"
                     aria-describedby="bankAccount"
                     placeholder="Enter your Bank Account Name"
-                    className="max-w-[437px]"
+                    className="sm:max-w-[437px]"
                   />
                 </div>
                 <Button
                   variant="primary"
                   type="submit"
-                  className="w-[170px] font-medium"
+                  className="w-full font-medium sm:w-[170px]"
                 >
                   Continue
                 </Button>

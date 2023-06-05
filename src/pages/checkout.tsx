@@ -107,9 +107,12 @@ export default function Checkout() {
           />
           I have transferred the money
         </label>
-        <div className="flex w-[100px] flex-col pt-[50px] md:block">
+        <div className="pt-[50px]">
           <Link href="/complete">
-            <Button variant="primary" className="w-[250px] px-6 font-medium">
+            <Button
+              variant="primary"
+              className="w-full px-6 font-medium sm:w-[250px]"
+            >
               Confirm Payment
             </Button>
           </Link>
