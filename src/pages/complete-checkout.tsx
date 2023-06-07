@@ -1,5 +1,7 @@
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 import CheckoutIllustration from "@/assets/checkout.svg";
+import { Button } from "@/components/atoms/button";
 
 export default function CompleteCheckout() {
   return (
@@ -18,12 +20,14 @@ export default function CompleteCheckout() {
           </p>
         </div>
         <div className="flex flex-col gap-y-4">
-          <Button
-            variant="primary"
-            className="font-medium sm:mx-auto sm:w-[240px]"
-          >
-            My Dashboard
-          </Button>
+          <Link href="/member" className="sm:mx-auto">
+            <Button
+              variant="primary"
+              className="w-full font-medium sm:w-[240px]"
+            >
+              My Dashboard
+            </Button>
+          </Link>
           <Button variant="secondary" className="sm:mx-auto sm:w-[240px]">
             WhatsApp ke Admin
           </Button>

@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-import { HomeFeature } from "@/components/home/home-feature";
-import { HomeFeaturedGame } from "@/components/home/home-featured-game";
-import { HomeReached } from "@/components/home/home-reached";
-import { HomeStart } from "@/components/home/home-start";
-import { HomeStory } from "@/components/home/home-story";
-import { LayoutRoot } from "@/components/layout/layout-root";
+import { Layout } from "@/components/templates/layout";
+import { Hero } from "@/components/organisms/home/hero";
+import { TransactionStep } from "@/components/organisms/home/transaction";
+import { FeaturedGame } from "@/components/organisms/home/featured";
+import { Reached } from "@/components/organisms/home/reached";
+import { Story } from "@/components/organisms/home/story";
 
 export default function Home() {
   useEffect(() => {
@@ -15,12 +15,12 @@ export default function Home() {
   }, []);
 
   return (
-    <LayoutRoot>
-      <HomeStart />
-      <HomeFeature />
-      <HomeFeaturedGame />
-      <HomeReached />
-      <HomeStory />
-    </LayoutRoot>
+    <Layout>
+      <Hero />
+      <TransactionStep />
+      <FeaturedGame />
+      <Reached />
+      <Story />
+    </Layout>
   );
 }

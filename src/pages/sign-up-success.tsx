@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button";
-
 import Wallet from "@/assets/wallet.svg";
+import { Button } from "@/components/atoms/button";
 
 export default function SignUpSuccess() {
   return (
     <section className="pb-[100px] pt-[150px] md:py-[179px]">
       <div className="container">
         <div className="text-center">
-          <Wallet className="h-[300px] w-[315px] max-w-full" />
+          <Wallet className="mx-auto h-[300px] w-[315px] max-w-full" />
         </div>
         <div className="pb-[150px] pt-[70px] md:pb-[50px]">
           <h2 className="mb-[10px] text-center text-[32px] font-bold text-dark-blue">

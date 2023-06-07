@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/atoms/button";
 import NotFound from "@/assets/404.svg";
 
 export default function Custom404() {
