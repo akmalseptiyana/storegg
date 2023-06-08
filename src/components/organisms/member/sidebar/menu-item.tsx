@@ -23,7 +23,7 @@ export function MenuItem({ title, Icon, href }: MenuItemProps) {
       <Link
         href={href}
         className={cn(
-          "text-lg text-gray transition-all duration-200 ease-linear hover:font-medium group-hover:text-dark-blue",
+          "text-lg text-gray transition-all duration-200 ease-linear group-hover:font-medium group-hover:text-dark-blue",
           router.pathname === href
             ? "font-medium text-dark-blue after:absolute after:right-0 after:h-full after:w-0 after:rounded-full after:border-2 after:border-secondary after:bg-secondary after:transition-all after:duration-200 after:ease-linear after:content-['']"
             : ""
