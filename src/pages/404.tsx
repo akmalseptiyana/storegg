@@ -1,5 +1,7 @@
-import { Button } from "@/components/atoms/button";
+import Link from "next/link";
+
 import NotFound from "@/assets/404.svg";
+import { Button } from "@/components/atoms/button";
 
 export default function Custom404() {
   return (
@@ -19,12 +21,14 @@ export default function Custom404() {
           </p>
         </div>
         <div className="flex flex-col">
-          <Button
-            variant="primary"
-            className="font-medium md:mx-auto md:w-[190px]"
-          >
-            Homepage
-          </Button>
+          <Link href="/" className="md:mx-auto">
+            <Button
+              variant="primary"
+              className="w-full font-medium md:w-[190px]"
+            >
+              Homepage
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
