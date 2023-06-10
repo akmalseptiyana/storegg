@@ -23,7 +23,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-poppins)", ...fontFamily.sans],
+        sans: ["var(--font-poppins)", "Poppins", ...fontFamily.sans],
       },
       colors: {
         primary: "#4D17E2",
