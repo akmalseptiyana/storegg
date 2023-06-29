@@ -3,14 +3,19 @@ import Link from "next/link";
 
 import Console from "@/assets/console.svg";
 import { cn } from "@/utils/classnames";
-import type { gameCardItem } from "@/lib/data/game-cards";
 
-interface GameItemProps extends gameCardItem {}
+interface GameItemProps {
+  id: string;
+  name: string;
+  thumbnail: string;
+  category: string;
+}
 
 export function GameItem({
+  id,
   name,
-  imageUrl,
-  platform,
+  thumbnail,
+  category,
   ...props
 }: GameItemProps) {
   return (
@@ -21,7 +26,7 @@ export function GameItem({
       )}
       {...props}
     >
-      <Link href="/detail">
+      <Link href={`/detail/${id}`}>
         <div
           className={cn(
             "overflow-hidden rounded-[26px]",
@@ -29,10 +34,12 @@ export function GameItem({
           )}
         >
           <Image
-            src={imageUrl}
+            src={thumbnail}
             alt={name}
             width={205}
             height={270}
+            quality={90}
+            unoptimized
             className={cn(
               "h-[270px] w-[205px]",
               "group-hover:transition-featured-game-card group-hover:h-[246px] group-hover:w-[181px] group-hover:blur-2xl"
@@ -51,7 +58,7 @@ export function GameItem({
             </div>
             <div>
               <p className="text-xl font-semibold text-white">{name}</p>
-              <p className="text-base font-light text-white">{platform}</p>
+              <p className="text-base font-light text-white">{category}</p>
             </div>
           </div>
         </div>

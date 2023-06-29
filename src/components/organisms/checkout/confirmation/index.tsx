@@ -1,15 +1,51 @@
-import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 import { cn } from "@/utils/classnames";
+import { Label } from "@/components/atoms/label";
 import { Button } from "@/components/atoms/button";
+import { setCheckout } from "@/services/player";
 
 export function CheckoutConfirmation() {
+  const [checkbox, setCheckbox] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    if (!checkbox) {
+      return toast.error("Pastikan anda telah melakukan pembayaran!");
+    }
+
+    const dataItemLocal = localStorage.getItem("data-item");
+    const dataTopUpLocal = localStorage.getItem("data-topup");
+    const dataItem = JSON.parse(dataItemLocal!);
+    const dataTopUp = JSON.parse(dataTopUpLocal!);
+
+    const data = {
+      voucher: dataItem._id,
+      nominal: dataTopUp.nominalItem._id,
+      payment: dataTopUp.paymentItem.payment._id,
+      bank: dataTopUp.paymentItem.bank._id,
+      name: dataTopUp.bankAccountName,
+      accountUser: dataTopUp.verifyID,
+    };
+    const response = await setCheckout(data);
+
+    if (response.error) {
+      return toast.error(response.message);
+    } else {
+      toast.success("Checkout Berhasil");
+      router.push("/complete-checkout");
+    }
+  };
+
   return (
     <>
-      <label className="relative block cursor-pointer select-none pl-[35px] text-lg text-dark-blue">
+      <Label className="relative cursor-pointer select-none pl-[35px] font-normal">
         <input
           type="checkbox"
           className="peer absolute h-0 w-0 cursor-pointer opacity-0"
+          onChange={(event) => setCheckbox(event.target.checked)}
         />
         <span
           className={cn(
@@ -19,16 +55,16 @@ export function CheckoutConfirmation() {
           )}
         />
         I have transferred the money
-      </label>
+      </Label>
       <div className="pt-[50px]">
-        <Link href="/complete-checkout">
-          <Button
-            variant="primary"
-            className="w-full px-6 font-medium sm:w-[250px]"
-          >
-            Confirm Payment
-          </Button>
-        </Link>
+        <Button
+          type="button"
+          variant="primary"
+          className="w-full px-6 font-medium sm:w-[250px]"
+          onClick={onSubmit}
+        >
+          Confirm Payment
+        </Button>
       </div>
     </>
   );

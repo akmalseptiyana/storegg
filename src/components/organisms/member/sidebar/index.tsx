@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   LayoutGrid,
   ShoppingBag,
@@ -7,12 +8,20 @@ import {
   Settings,
   Power,
 } from "lucide-react";
+import Cookies from "js-cookie";
 
 import { Profile } from "./profile";
 import { Footer } from "./footer";
 import { MenuItem } from "./menu-item";
 
 export function Sidebar() {
+  const router = useRouter();
+
+  const onLogout = () => {
+    Cookies.remove("token");
+    router.push("/sign-in");
+  };
+
   return (
     <aside>
       <div className="no-scrollbar fixed left-0 top-0 z-10 h-screen w-[290px] overflow-y-auto bg-white pb-[30px] pl-[30px] pt-[50px]">
@@ -36,7 +45,7 @@ export function Sidebar() {
             title="Settings"
             Icon={Settings}
           />
-          <MenuItem href="/sign-in" title="Log Out" Icon={Power} />
+          <MenuItem title="Log Out" Icon={Power} onClick={onLogout} />
         </ul>
         <Footer />
       </div>

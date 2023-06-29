@@ -28,9 +28,14 @@ export default function CompleteCheckout() {
               My Dashboard
             </Button>
           </Link>
-          <Button variant="secondary" className="sm:mx-auto sm:w-[240px]">
-            WhatsApp ke Admin
-          </Button>
+          <Link
+            href="https://wa.me/628818208490?text=Saya%20sudah%20melakukan%20pembayaran"
+            className="sm:mx-auto"
+          >
+            <Button variant="secondary" className="sm:mx-auto sm:w-[240px]">
+              WhatsApp ke Admin
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

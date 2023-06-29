@@ -1,24 +1,84 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import Image from "next/image";
-import { Trash2 } from "lucide-react";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
-import UploadIcon from "@/assets/upload.svg";
 import { Input } from "@/components/atoms/input";
 import { Button } from "@/components/atoms/button";
 import { Label } from "@/components/atoms/label";
+import { JWTPayloadTypes, UserTypes } from "@/services/types";
+import { updateProfile } from "@/services/member";
+
+interface UserStateTypes {
+  id: string;
+  name: string;
+  email: string;
+  avatar: any;
+}
 
 export function EditProfileForm() {
+  const [user, setUser] = useState<UserStateTypes>({
+    id: "",
+    name: "",
+    email: "",
+    avatar: "",
+  });
+  const [imagePreview, setImagePreview] = useState("/");
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      const jwtToken = atob(token);
+      const payload: JWTPayloadTypes = jwtDecode(jwtToken);
+      const userFromPayload: UserTypes = payload.player;
+      const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+      userFromPayload.avatar = `${IMAGE_URL}/${userFromPayload.avatar}`;
+      setUser(userFromPayload);
+    }
+  }, []);
+
+  const onSubmit = async () => {
+    const data = new FormData();
+
+    data.append("image", user.avatar);
+    data.append("name", user.name);
+    const response = await updateProfile(data);
+
+    if (response.error) {
+      return toast.error(response.message);
+    } else {
+      Cookies.remove("token");
+      router.push("/sign-in");
+    }
+  };
+
   return (
     <form action="" className="max-w-[437px]">
       <div className="flex">
-        <div className="relative mr-5">
-          <Image src="/images/avatar-1.png" alt="" width={90} height={90} />
-          <div className="absolute top-0 flex h-[90px] w-[90px] cursor-pointer items-center justify-center rounded-full bg-dark-blue/70 opacity-0 transition-all duration-300 ease-linear hover:opacity-100">
-            <Trash2 className="text-white" />
-          </div>
-        </div>
         <div>
           <label htmlFor="avatar" className="cursor-pointer">
-            <UploadIcon className="h-[90px] w-[90px]" />
+            {imagePreview === "/" ? (
+              <Image
+                src={user.avatar}
+                alt="upload"
+                width={90}
+                height={90}
+                unoptimized
+                className="h-[90px] w-[90px] rounded-full object-cover"
+              />
+            ) : (
+              <Image
+                src={imagePreview}
+                alt="upload"
+                width={90}
+                height={90}
+                unoptimized
+                className="h-[90px] w-[90px] rounded-full object-cover"
+              />
+            )}
           </label>
           <Input
             id="avatar"
@@ -26,6 +86,14 @@ export function EditProfileForm() {
             name="avatar"
             accept="image/png, image/jpeg"
             className="invisible h-0 w-0"
+            onChange={(event) => {
+              const img = event.target.files![0];
+              setImagePreview(URL.createObjectURL(img));
+              return setUser({
+                ...user,
+                avatar: img,
+              });
+            }}
           />
         </div>
       </div>
@@ -36,8 +104,15 @@ export function EditProfileForm() {
         <Input
           id="name"
           name="name"
+          value={user.name}
           aria-describedby="name"
           placeholder="Enter your name"
+          onChange={(event) =>
+            setUser({
+              ...user,
+              name: event.target.value,
+            })
+          }
         />
       </div>
       <div className="pt-[30px]">
@@ -48,24 +123,20 @@ export function EditProfileForm() {
           type="email"
           id="email"
           name="email"
+          value={user.email}
           aria-describedby="email"
           placeholder="Enter your email address"
-        />
-      </div>
-      <div className="pt-[30px]">
-        <Label htmlFor="phone" className="mb-[10px]">
-          Phone
-        </Label>
-        <Input
-          type="tel"
-          id="phone"
-          name="phone"
-          aria-describedby="phone"
-          placeholder="Enter your phone number"
+          className="disabled:cursor-not-allowed"
+          disabled
         />
       </div>
       <div className="flex flex-col pt-[50px]">
-        <Button type="submit" variant="primary" className="w-full font-medium">
+        <Button
+          type="button"
+          variant="primary"
+          className="w-full font-medium"
+          onClick={onSubmit}
+        >
           Save My Profile
         </Button>
       </div>

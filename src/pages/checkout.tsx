@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GetServerSidePropsContext } from "next";
 
 import Logo from "@/assets/logo.svg";
 import { CheckoutConfirmation } from "@/components/organisms/checkout/confirmation";
@@ -30,4 +31,20 @@ export default function Checkout() {
       </div>
     </section>
   );
+}
+
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+  const { token } = req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

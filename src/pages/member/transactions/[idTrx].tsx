@@ -1,21 +1,22 @@
-import { GetServerSidePropsContext } from "next";
+import { GetServerSideProps } from "next";
 import jwtDecode from "jwt-decode";
 
 import { Sidebar } from "@/components/organisms/member/sidebar";
-import { OverviewContent } from "@/components/organisms/member/overview";
+import { TransactionsDetailContent } from "@/components/organisms/member/transactions-detail";
 import { JWTPayloadTypes, UserTypes } from "@/services/types";
 
-export default function Member() {
+export default function TransactionsDetail() {
   return (
     <section className="overflow-auto bg-[#FBFCFD]">
       <Sidebar />
-      <OverviewContent />
+      <TransactionsDetailContent />
     </section>
   );
 }
 
-export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { token } = req.cookies;
+
   if (!token) {
     return {
       redirect: {
@@ -32,8 +33,6 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   userFromPayload.avatar = `${IMAGE_URL}/${userFromPayload.avatar}`;
 
   return {
-    props: {
-      user: userFromPayload,
-    },
+    props: {},
   };
-}
+};

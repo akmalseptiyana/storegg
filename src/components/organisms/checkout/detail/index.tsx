@@ -1,4 +1,41 @@
+import { useEffect, useState } from "react";
+
+import { formatValueToCurrency } from "@/utils/currency";
+
 export function CheckoutDetail() {
+  const [dataTopUp, setDataTopUp] = useState({
+    _id: "",
+    verifyID: "",
+    nominalItem: {
+      price: 0,
+      coinQuantity: 0,
+      coinName: "",
+    },
+    paymentItem: {
+      payment: {
+        type: "",
+        _id: "",
+      },
+      bank: {
+        bankName: "",
+        name: "",
+        noRekening: "",
+        _id: "",
+      },
+    },
+    bankAccountName: "",
+  });
+
+  useEffect(() => {
+    const dataFromLocal = localStorage.getItem("data-topup");
+    const dataTopUpLocal = JSON.parse(dataFromLocal!);
+    setDataTopUp(dataTopUpLocal);
+  }, []);
+
+  const itemPrice = dataTopUp.nominalItem.price;
+  const tax = dataTopUp.nominalItem.price * (10 / 100);
+  const totalPrice = itemPrice + tax;
+
   return (
     <>
       <div className="pt-[30px] md:pt-[50px]">
@@ -6,23 +43,36 @@ export function CheckoutDetail() {
           Purchase Details
         </h2>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
-          Your Game ID <span className="block font-medium">masayoshizero</span>
+          Your Game ID{" "}
+          <span className="block font-medium">{dataTopUp.verifyID}</span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
           Order ID <span className="block font-medium">#GG001</span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
-          Item <span className="block font-medium">250 Diamonds</span>
+          Item{" "}
+          <span className="block font-medium">
+            {dataTopUp.nominalItem.coinQuantity}{" "}
+            {dataTopUp.nominalItem.coinName}
+          </span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
-          Price <span className="block font-medium">Rp 42.280.500</span>
+          Price{" "}
+          <span className="block font-medium">
+            {formatValueToCurrency(itemPrice)}
+          </span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
-          Tax (10%) <span className="block font-medium">Rp 4.228.000</span>
+          Tax (10%){" "}
+          <span className="block font-medium">
+            {formatValueToCurrency(tax)}
+          </span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
           Total{" "}
-          <span className="block font-medium text-primary">Rp 55.000.600</span>
+          <span className="block font-medium text-primary">
+            {formatValueToCurrency(totalPrice)}
+          </span>
         </p>
       </div>
       <div className="py-[10px] md:py-[50px]">
@@ -31,21 +81,31 @@ export function CheckoutDetail() {
         </h2>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
           Your Account Name{" "}
-          <span className="block font-medium">Masayoshi Angga Zero</span>
+          <span className="block font-medium">{dataTopUp.bankAccountName}</span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
-          Type <span className="block font-medium">Worldwide Transfer</span>
+          Type{" "}
+          <span className="block font-medium">
+            {dataTopUp.paymentItem.payment.type}
+          </span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
-          Bank Name <span className="block font-medium">Mandiri</span>
+          Bank Name{" "}
+          <span className="block font-medium">
+            {dataTopUp.paymentItem.bank.bankName}
+          </span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
           Bank Account Name{" "}
-          <span className="block font-medium">PT Store GG Indonesia</span>
+          <span className="block font-medium">
+            {dataTopUp.paymentItem.bank.name}
+          </span>
         </p>
         <p className="mb-5 text-lg text-dark-blue md:flex md:items-center md:justify-between">
           Bank Number{" "}
-          <span className="block font-medium">1800 - 9090 - 2021</span>
+          <span className="block font-medium">
+            {dataTopUp.paymentItem.bank.noRekening}
+          </span>
         </p>
       </div>
     </>

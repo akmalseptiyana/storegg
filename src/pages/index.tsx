@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Head from "next/head";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
@@ -15,12 +16,30 @@ export default function Home() {
   }, []);
 
   return (
-    <Layout>
-      <Hero />
-      <TransactionStep />
-      <FeaturedGame />
-      <Reached />
-      <Story />
-    </Layout>
+    <>
+      <Head>
+        <title>StoreGG - Get a New Experience in Gaming</title>
+        <meta
+          name="description"
+          content="Kami menyediakan jutaan cara untuk membantu players menjadi pemenang sejati"
+        />
+        <meta
+          property="og:title"
+          content="StoreGG - Get a New Experience in Gaming"
+        />
+        <meta
+          property="og:description"
+          content="Kami menyediakan jutaan cara untuk membantu players menjadi pemenang sejati"
+        />
+        <meta property="og:url" content="https://storegg.vercel.app" />
+      </Head>
+      <Layout>
+        <Hero />
+        <TransactionStep />
+        <FeaturedGame />
+        <Reached />
+        <Story />
+      </Layout>
+    </>
   );
 }

@@ -1,16 +1,69 @@
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 import { Divider } from "@/components/atoms/divider";
 import { Button } from "@/components/atoms/button";
 import { Badge } from "@/components/atoms/badge";
 import { Row } from "./row";
+import { getTransactionDetail } from "@/services/member";
 
 export function TransactionsDetailContent() {
+  const [transactionDetail, setTransactionDetail] = useState({
+    historyVoucherTopup: {
+      gameName: "",
+      category: "",
+      thumbnail: "",
+      coinName: "",
+      coinQuantity: 0,
+      price: 0,
+    },
+    historyPayment: {
+      name: "",
+      type: "",
+      bankName: "",
+      noRekening: "",
+    },
+    _id: "",
+    name: "",
+    accountUser: "",
+    status: "",
+    tax: 0,
+    value: 0,
+  });
+  const { query, isReady } = useRouter();
+
+  const token = Cookies.get("token");
+  const jwtToken = token ? atob(token) : "";
+
+  const transactionDetailAPI = useCallback(
+    async (id: string | string[] | undefined) => {
+      const response = await getTransactionDetail(id, jwtToken);
+
+      if (response.error) {
+        return toast.error(response.message);
+      } else {
+        setTransactionDetail(response.data);
+      }
+    },
+    [getTransactionDetail]
+  );
+
+  useEffect(() => {
+    if (isReady) {
+      transactionDetailAPI(query.idTrx);
+    }
+  }, []);
+
+  const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+
   return (
     <main className="relative ml-[340px] mr-auto h-full py-[50px] pr-[50px]">
       <div className="lg:pr-0">
         <h2 className="mb-[30px] text-[32px] font-bold text-dark-blue">
-          Details #GG001
+          Details #{transactionDetail._id}
         </h2>
         <div>
           <div className="w-full max-w-[860px] overflow-auto rounded-2xl bg-white p-[30px]">
@@ -20,23 +73,25 @@ export function TransactionsDetailContent() {
                   <div className="pr-4">
                     <figure className="relative h-[130px] w-[200px] overflow-hidden rounded-[26px]">
                       <Image
-                        src="/images/Thumbnail-3.png"
+                        src={`${IMAGE_URL}/${transactionDetail.historyVoucherTopup.thumbnail}`}
                         alt=""
                         fill
+                        unoptimized
                         className="object-cover"
                       />
                     </figure>
                   </div>
                   <div>
                     <p className="mb-10 text-xl font-bold text-dark-blue">
-                      Mobile Legends:
-                      <br /> The New Battle 2021
+                      {transactionDetail.historyVoucherTopup.gameName}
                     </p>
-                    <p className="text-gray">Category: Mobile</p>
+                    <p className="text-gray">
+                      Category: {transactionDetail.historyVoucherTopup.category}
+                    </p>
                   </div>
                 </div>
                 <Badge variant="pending" className="h-10 w-[130px]">
-                  Pending
+                  {transactionDetail.status}
                 </Badge>
               </div>
               <Divider orientation="horizontal" />
@@ -44,14 +99,23 @@ export function TransactionsDetailContent() {
                 <h2 className="mb-5 text-xl font-bold text-dark-blue">
                   Purchase Details
                 </h2>
-                <Row label="Your Game ID" value="masyoshizero" />
-                <Row label="Order ID" value="#GG001" />
-                <Row label="Item" value="250 Diamonds" />
-                <Row label="Price" value={42280500} />
-                <Row label="Tax (10%)" value={4228000} />
+                <Row
+                  label="Your Game ID"
+                  value={transactionDetail.accountUser}
+                />
+                <Row label="Order ID" value={transactionDetail._id} />
+                <Row
+                  label="Item"
+                  value={`${transactionDetail.historyVoucherTopup.coinQuantity} ${transactionDetail.historyVoucherTopup.coinName}`}
+                />
+                <Row
+                  label="Price"
+                  value={transactionDetail.historyVoucherTopup.price}
+                />
+                <Row label="Tax (10%)" value={transactionDetail.tax} />
                 <Row
                   label="Total"
-                  value={55000600}
+                  value={transactionDetail.value}
                   className="font-semibold text-primary"
                 />
               </div>
@@ -59,11 +123,23 @@ export function TransactionsDetailContent() {
                 <h2 className="mb-5 text-xl font-bold text-dark-blue">
                   Payment Informations
                 </h2>
-                <Row label="Your Account Name" value="Masayoshi Angga Zero" />
-                <Row label="Type" value="WorldWide Transfer" />
-                <Row label="Bank Name" value="Mandiri" />
-                <Row label="Bank Account Name" value="PT Store GG Indonesia" />
-                <Row label="Bank Number" value="1800 - 9090 - 2021" />
+                <Row label="Your Account Name" value={transactionDetail.name} />
+                <Row
+                  label="Type"
+                  value={transactionDetail.historyPayment.type}
+                />
+                <Row
+                  label="Bank Name"
+                  value={transactionDetail.historyPayment.bankName}
+                />
+                <Row
+                  label="Bank Account Name"
+                  value={transactionDetail.historyPayment.name}
+                />
+                <Row
+                  label="Bank Number"
+                  value={transactionDetail.historyPayment.noRekening}
+                />
               </div>
               <div className="mt-[50px]">
                 <Button variant="primary" className="w-[250px]">

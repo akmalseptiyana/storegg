@@ -1,5 +1,9 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 import { Button } from "@/components/atoms/button";
 import { Divider } from "@/components/atoms/divider";
@@ -9,12 +13,34 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/atoms/dropdown";
+import { JWTPayloadTypes, UserTypes } from "@/services/types";
 
-interface AuthProps {
-  isLogin?: boolean;
-}
+export function Auth() {
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState({
+    avatar: "",
+  });
+  const router = useRouter();
 
-export function Auth({ isLogin }: AuthProps) {
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      const jwtToken = atob(token);
+      const payload: JWTPayloadTypes = jwtDecode(jwtToken);
+      const userFromPayload: UserTypes = payload.player;
+      const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+      userFromPayload.avatar = `${IMAGE_URL}/${userFromPayload.avatar}`;
+      setIsLogin(true);
+      setUser(userFromPayload);
+    }
+  }, []);
+
+  const onLogout = () => {
+    Cookies.remove("token");
+    router.push("/");
+    setIsLogin(false);
+  };
+
   if (isLogin) {
     return (
       <>
@@ -22,7 +48,14 @@ export function Auth({ isLogin }: AuthProps) {
         <li>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Image src="/images/avatar-1.png" alt="" width={40} height={40} />
+              <Image
+                src={user.avatar}
+                alt=""
+                width={40}
+                height={40}
+                unoptimized
+                className="h-10 w-10 rounded-full object-cover"
+              />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" sideOffset={20}>
               <DropdownMenuItem>
@@ -32,9 +65,7 @@ export function Auth({ isLogin }: AuthProps) {
               <DropdownMenuItem>
                 <Link href="/member/edit-profile">Account Settings</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/sign-in">Log Out</Link>
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={onLogout}>Log Out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </li>

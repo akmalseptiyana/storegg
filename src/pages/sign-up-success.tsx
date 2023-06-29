@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Wallet from "@/assets/wallet.svg";
 import { Button } from "@/components/atoms/button";
 
@@ -19,12 +21,14 @@ export default function SignUpSuccess() {
           </p>
         </div>
         <div className="flex flex-col">
-          <Button
-            variant="primary"
-            className="font-medium md:mx-auto md:w-[170px]"
-          >
-            Top Up
-          </Button>
+          <Link href="/sign-in">
+            <Button
+              variant="primary"
+              className="font-medium md:mx-auto md:w-[170px]"
+            >
+              Top Up
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
