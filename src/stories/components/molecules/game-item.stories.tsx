@@ -15,9 +15,10 @@ export const Default: Story = {
   render: () => (
     <ul>
       <GameItem
+        id="1"
         name="Super Mechs"
-        platform="Mobile"
-        imageUrl="/images/Thumbnail-1.png"
+        category="Mobile"
+        thumbnail="/images/Thumbnail-1.png"
       />
     </ul>
   ),
